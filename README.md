@@ -4,6 +4,8 @@
 
 # Serverless llama.cpp inference worker for RunPod
 
+[![Runpod badge](https://api.runpod.io/badge/Jacob-ML/inference-worker)](https://console.runpod.io/hub/Jacob-ML/inference-worker)
+
 This repository contains a serverless inference worker for running llama.cpp models on RunPod. It uses the `llama-server` image to provide an API for interacting with the models.
 The following OpenAI API endpoints are supported:
 
