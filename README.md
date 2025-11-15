@@ -1,36 +1,30 @@
-# Runpod serverless runner for ollama
+<p align="center">
+    <img src="https://raw.githubusercontent.com/ggml-org/llama.cpp/master/media/llama1-icon-transparent.png" alt="llama.cpp logo" width="128">
+</p>
 
-## How to use
+# Serverless llama.cpp inference worker for RunPod
 
-Start a runpod serverless with the docker container ``svenbrnn/runpod-ollama:latest``. Set ``OLLAMA_MODEL_NAME`` environment to a model from ollama.com to automatically download a model.
-A mounted volume will be automatically used.
+This repository contains a serverless inference worker for running llama.cpp models on RunPod. It uses the `llama-server` image to provide an API for interacting with the models.
+The following OpenAI API endpoints are supported:
 
-[![RunPod](https://api.runpod.io/badge/SvenBrnn/runpod-worker-ollama)](https://www.runpod.io/console/hub/SvenBrnn/runpod-worker-ollama)
+- `v1/models`
+- `v1/chat/completions`
+- `v1/completions`
 
-## Environment variables
+Streaming responses is also supported.
 
-| Variable Name       | Description                              | Default Value       |
-|---------------------|------------------------------------------|---------------------|
-| `OLLAMA_MODEL_NAME` | The name of the model to download        | NULL                |
+## Setup
 
-## Test requests for runpod.io console
+For the setup to work best, it is recommended to use a network volume attached to all workers which stores the model GGUFs and then reference those files in the launch arguments.
+Make sure your RunPod worker has access to the network volume, i.e. is located in the correct data center.
 
-See the [test_inputs](./test_inputs) directory for example test requests. 
+## Configuration
 
+The worker can be configured via environment variables set in the RunPod hub configuration:
 
-## Streaming
+- `LLAMA_SERVER_CMD_ARGS`: Command line arguments (argv) for the `llama-server` binary. Example: `-hf /path/to/model.gguf:Q4_K_M -ctx_size 4096`. **IMPORTANT**: Please do not define the port argument here, as the worker will always use port `3098` automatically.
+- `MAX_CONCURRENCY`: Maximum number of concurrent requests the worker can handle. Default is `8`.
 
-Streaming for openai requests are fully working.
+## License
 
-## Preload model into the docker image
-
-See the [embed_model](./embed_model/) directory for instructions.
-
-## Licence
-
-This project is licensed under the Creative Commons Attribution 4.0 International License. You are free to use, share, and adapt the material for any purpose, even commercially, under the following terms:
-
-- **Attribution**: You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-- **Reference**: You must reference the original repository at [https://github.com/svenbrnn/runpod-worker-ollama](https://github.com/svenbrnn/runpod-worker-ollama).
-
-For more details, see the [license](https://creativecommons.org/licenses/by/4.0/).
+Please see the [LICENSE](./LICENSE) file for more information.

@@ -1,46 +1,36 @@
 {
-  "title": "Runpod Worker Ollama",
-  "description": "A serverless Ollama Worker for Runpod",
-  "type": "serverless",
-  "category": "language",
-  "iconUrl": "https://ollama.com/public/ollama.png",
-  "config": {
-    "runsOn": "GPU",
-    "gpuCount": 1,
-    "gpuIds": "AMPERE_16,AMPERE_24,ADA_24",
-    "containerDiskInGb": 20,
-    "presets": [],
-    "env": [
-      {
-        "key": "OLLAMA_MODEL_NAME",
-        "input": {
-          "name": "Model Name",
-          "type": "string",
-          "description": "Name of a model to preload",
-          "default": "phi3",
-          "advanced": false
-        }
-      },
-      {
-        "key": "MAX_CONCURRENCY",
-        "input": {
-          "name": "Max Concurrency",
-          "type": "number",
-          "description": "Maximum number of concurrent requests to handle (default: 8)",
-          "default": 8,
-          "advanced": true
-        }
-      },
-      {
-        "key": "OLLAMA_NUM_PARALLEL",
-        "input": {
-          "name": "Parallel Requests",
-          "type": "string",
-          "description": "Maximum number of concurrent requests to handle (default: 4 or 1)",
-          "default": "",
-          "advanced": true
-        }
-      }
-    ]
-  }
+    "title": "llama.cpp inference",
+    "description": "Run llama.cpp inference using serverless RunPod workers!",
+    "type": "serverless",
+    "category": "language",
+    "iconUrl": "https://raw.githubusercontent.com/ggml-org/llama.cpp/master/media/llama1-icon-transparent.png",
+    "config": {
+        "runsOn": "GPU",
+        "gpuCount": 1,
+        "gpuIds": "AMPERE_16,AMPERE_24,ADA_24",
+        "containerDiskInGb": 32,
+        "presets": [],
+        "env": [
+            {
+                "key": "LLAMA_SERVER_CMD_ARGS",
+                "input": {
+                    "name": "Model Name",
+                    "type": "string",
+                    "description": "Launch command line arguments (argv) for the llama-server binary. Do not define the port.",
+                    "default": "-hf unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF:Q4_K_M -ctx_size 4096",
+                    "advanced": false
+                }
+            },
+            {
+                "key": "MAX_CONCURRENCY",
+                "input": {
+                    "name": "Maximum Concurrency",
+                    "type": "number",
+                    "description": "Maximum number of concurrent requests to handle (default: 8).",
+                    "default": 8,
+                    "advanced": true
+                }
+            }
+        ]
+    }
 }
