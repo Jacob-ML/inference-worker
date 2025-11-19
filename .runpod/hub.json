@@ -17,7 +17,7 @@
                     "name": "Model Name",
                     "type": "string",
                     "description": "Launch command line arguments (argv) for the llama-server binary. Do not define the port.",
-                    "default": "-hf unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF:Q4_K_M -ctx_size 4096",
+                    "default": "-hf unsloth/gemma-3-270m-it-GGUF:Q6_K --ctx-size 4096",
                     "advanced": false
                 }
             },
