@@ -14,7 +14,7 @@
             {
                 "key": "LLAMA_SERVER_CMD_ARGS",
                 "input": {
-                    "name": "Model Name",
+                    "name": "Command line arguments for llama-server",
                     "type": "string",
                     "description": "Launch command line arguments (argv) for the llama-server binary. Do not define the port.",
                     "default": "-hf unsloth/gemma-3-270m-it-GGUF:Q6_K --ctx-size 4096",
