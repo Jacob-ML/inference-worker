@@ -13,6 +13,10 @@ The following OpenAI API endpoints are supported:
 
 Streaming responses is also supported.
 
+**Important!** This project is still relatively new. Please [open a new issue](https://github.com/Jacob-ML/inference-worker/issues/new) if you encounter any problems in order to get help.
+
+**This is a fork of [SvenBrnn's `runpod-worker-ollama`](https://github.com/SvenBrnn/runpod-worker-ollama).**
+
 ## Setup
 
 For the setup to work best, it is recommended to use a network volume attached to all workers which stores the model GGUFs and then reference those files in the launch arguments.
