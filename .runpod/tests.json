@@ -5,7 +5,7 @@
             "input": {
                 "prompt": "Hi! Who are you?"
             },
-            "timeout": 120000
+            "timeout": 60000
         }
     ],
     "config": {
@@ -14,7 +14,7 @@
         "env": [
             {
                 "key": "LLAMA_SERVER_CMD_ARGS",
-                "value": "-hf unsloth/gemma-3-270m-it-GGUF:Q6_K --ctx-size 4096"
+                "value": "-hf unsloth/gemma-3-270m-it-GGUF:IQ2_XXS --ctx-size 512 -ngl 999"
             }
         ],
         "allowedCudaVersions": [

@@ -16,13 +16,13 @@ cleanup() {
 
 # check if $LLAMA_SERVER_CMD_ARGS is set
 if [ -z "$LLAMA_SERVER_CMD_ARGS" ]; then
-    echo "start.sh: Warning: LLAMA_SERVER_CMD_ARGS is not set. Defaulting to -hf unsloth/gemma-3-270m-it-GGUF:Q6_K --ctx-size 4096"
-    LLAMA_SERVER_CMD_ARGS="-hf unsloth/gemma-3-270m-it-GGUF:Q6_K --ctx-size 4096 -ngl 99"
+    echo "start.sh: Warning: LLAMA_SERVER_CMD_ARGS is not set. Defaulting to -hf unsloth/gemma-3-270m-it-GGUF:IQ2_XXS --ctx-size 512 -ngl 999"
+    LLAMA_SERVER_CMD_ARGS="-hf unsloth/gemma-3-270m-it-GGUF:IQ2_XXS --ctx-size 512 -ngl 999"
 fi
 
 # check if the substring /workspace is in LLAMA_SERVER_CMD_ARGS
 if [[ "$LLAMA_SERVER_CMD_ARGS" != *"/workspace"* ]]; then
-    echo "start.sh: Tip: For reduced downloads and faster startup times, consider using a model stored in a network volume mounted to /workspace."
+    echo "start.sh: Tip: For reduced downloads and faster startup times, consider using a model stored in the RunPod cache."
 fi
 
 # check if the substring --port is in LLAMA_SERVER_CMD_ARGS and if yes, raise an error:
