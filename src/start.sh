@@ -65,6 +65,8 @@ LD_LIBRARY_PATH=/app /app/llama-server $CACHED_LLAMA_ARGS $LLAMA_SERVER_CMD_ARGS
 
 LLAMA_SERVER_PID=$! # store the process ID (PID) of the background command
 
+tries_so_far=0
+
 check_server_is_running() {
     echo "start.sh: Checking if llama-server is done initializing..."
 
@@ -72,6 +74,13 @@ check_server_is_running() {
         return 0 # success
     else
         return 1 # failure
+    fi
+
+    tries_so_far=$((tries_so_far + 1))
+
+    if [ $tries_so_far -ge 120 ]; then
+        echo "start.sh: Error: llama-server did not start within 60 seconds."
+        exit 1
     fi
 
     # check if the process is still running
