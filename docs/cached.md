@@ -13,7 +13,7 @@ However, this will cause every worker to download the model from the Hugging Fac
 A naive way to cache the model would be to store it on a network volume in RunPod and reference the model files this way:
 
 ```bash
--hf /runpod-volume/model.gguf --ctx-size 4096 # etc...
+-m /runpod-volume/model.gguf --ctx-size 4096 # etc...
 ```
 
 Unfortunately, network volume performance is often not sufficient for loading large models, leading to long load times. RunPod introduced a [caching mechanism](https://docs.runpod.io/serverless/endpoints/model-caching) to solve this problem.
