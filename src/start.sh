@@ -17,7 +17,13 @@ cleanup() {
 CACHED_LLAMA_ARGS=""
 
 find_cached_path() {
-    CACHED_LLAMA_ARGS="-m $(python ./find_cached.py $LLAMA_CACHED_MODEL $LLAMA_CACHED_GGUF_PATH)"
+    local model_path
+    model_path=$(python ./find_cached.py "$LLAMA_CACHED_MODEL" "$LLAMA_CACHED_GGUF_PATH")
+    if [ $? -ne 0 ] || [ -z "$model_path" ]; then
+        echo "start.sh: Error: Could not resolve cached model path. Check that LLAMA_CACHED_MODEL and LLAMA_CACHED_GGUF_PATH are correct and the model is fully cached on the network volume."
+        exit 1
+    fi
+    CACHED_LLAMA_ARGS="-m $model_path"
 }
 
 # check if $LLAMA_CACHED_MODEL is set and not empty

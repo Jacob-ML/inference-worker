@@ -3,6 +3,7 @@ Finds the full LLM GGUF path from the Hugging Face cache.
 """
 
 import os
+import sys
 import argparse
 
 CACHE_DIR = "/runpod-volume/huggingface-cache/hub"
@@ -52,6 +53,12 @@ def main():
     args = parser.parse_args()
 
     model_path = find_model_path(args.model, args.path)
+    if model_path is None:
+        print(
+            f"Error: Cached model not found. Model='{args.model}', GGUF='{args.path}', Cache dir='{CACHE_DIR}'",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     print(model_path, end="")
 
 
