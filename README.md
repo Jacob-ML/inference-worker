@@ -32,4 +32,4 @@ The worker can be configured via environment variables set in the RunPod hub con
 
 Please see the [LICENSE](./LICENSE) file for more information.
 
-[![Runpod badge](https://api.runpod.io/badge/Jacob-ML/inference-worker)](https://console.runpod.io/hub/Jacob-ML/inference-worker)
+[![Runpod](https://api.runpod.io/badge/sullivanmatt/inference-worker)](https://console.runpod.io/hub/sullivanmatt/inference-worker)
