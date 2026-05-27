@@ -17,7 +17,17 @@ cleanup() {
 CACHED_LLAMA_ARGS=""
 
 find_cached_path() {
-    CACHED_LLAMA_ARGS="-m $(python ./find_cached.py $LLAMA_CACHED_MODEL $LLAMA_CACHED_GGUF_PATH)"
+    CACHED_MODEL_PATH="$(python ./find_cached.py "$LLAMA_CACHED_MODEL" "$LLAMA_CACHED_GGUF_PATH")"
+
+    if [ -z "$CACHED_MODEL_PATH" ] || [ ! -f "$CACHED_MODEL_PATH" ]; then
+        echo "start.sh: ERROR: Cached model path was not found or is not a file."
+        echo "start.sh: LLAMA_CACHED_MODEL=$LLAMA_CACHED_MODEL"
+        echo "start.sh: LLAMA_CACHED_GGUF_PATH=$LLAMA_CACHED_GGUF_PATH"
+        echo "start.sh: Resolved path=$CACHED_MODEL_PATH"
+        exit 1
+    fi
+
+    CACHED_LLAMA_ARGS="-m $CACHED_MODEL_PATH"
 }
 
 # check if $LLAMA_CACHED_MODEL is set and not empty
