@@ -9,8 +9,8 @@ set -e -o pipefail
 # script after the server is up and running.
 
 cleanup() {
-    echo "start.sh: Cleaning up..."
-    pkill -P $$ # kill all child processes of the current script
+    echo "Cleaning up..."
+    pkill -P $$ # Kill all child processes of the current script
     exit 0
 }
 
@@ -74,36 +74,28 @@ LLAMA_SERVER_PID=$! # store the process ID (PID) of the background command
 tries_so_far=0
 
 check_server_is_running() {
-    echo "start.sh: Checking if llama-server is done initializing..."
-
-    if cat llama.server.log | grep -q "listening"; then
-        return 0 # success
+    echo "Checking if llama-server is running..."
+    if curl -s -f http://localhost:3098/v1/ > /dev/null; then
+        return 0 # Success
     else
-        return 1 # failure
+        return 1 # Failure
     fi
 
     tries_so_far=$((tries_so_far + 1))
 
-    if [ $tries_so_far -ge 120 ]; then
-        echo "start.sh: Error: llama-server did not start within 60 seconds."
-        exit 1
-    fi
-
-    # check if the process is still running
-    if ! kill -0 $LLAMA_SERVER_PID 2>/dev/null; then
-        echo "start.sh: Error: llama-server process has exited unexpectedly."
-        exit 1
-    fi
 }
 
 echo "start.sh: Waiting for llama-server to start..."
 
-# wait for the server to start
+# Wait for the server to start
 while ! check_server_is_running; do
-    # we don't want to lose too much time, so we check very frequently
-    sleep 0.5
+    sleep 1
+    if [ $tries_so_far -ge 15 ]; then
+        echo "*ERROR* llama-server did not start!"
+        exit 1
+    fi
 done
 
 echo "start.sh: llama-server is up and running, delegating to the handler script."
 
-python -u handler.py $1
+python3 -u handler.py $1

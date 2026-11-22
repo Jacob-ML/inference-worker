@@ -21,6 +21,7 @@ Typical usage:
 """
 
 import json
+import os
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -100,8 +101,7 @@ class LlamaCPPEngine:
         # Get model to use (defaults to first model in list of models)
         model = client.models.list().data[0].id
 
-        # Depending if prompt is a string or a list, we need to handle it
-        # differently and send it to the OpenAI API
+        # Depending if prompt is a string or a list, we need to handle it differently and send it to the OpenAI API
         if isinstance(job_input.llm_input, str):
             # Build new JobInput object with the OpenAI route and input
             openAIjob = JobInput(
@@ -186,6 +186,7 @@ class LlamaCPPOpenAIEngine(LlamaCPPEngine):
                   "data: ").
                 - An error dict if the route is invalid or an exception occurs.
         """
+        print("Generating response for job_input:", job_input)
 
         # Dump job_input to console
         openai_input = job_input.openai_input
@@ -205,7 +206,7 @@ class LlamaCPPOpenAIEngine(LlamaCPPEngine):
             ):
                 yield response
         else:
-            yield {"error": "invalid route"}
+            yield {"error": "Invalid route"}
 
     async def _handle_model_request(self):
         """
@@ -283,6 +284,8 @@ class LlamaCPPOpenAIEngine(LlamaCPPEngine):
                 return
 
             for chunk in response:
+                # Log message to console
+                print("Message:", chunk)
                 # Return json of the chunk without any line breaks
                 yield "data: " + json.dumps(
                     chunk.to_dict(), separators=(",", ":")

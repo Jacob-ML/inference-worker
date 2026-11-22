@@ -11,9 +11,7 @@ import os
 from utils import JobInput
 from engine import LlamaCPPEngine, LlamaCPPOpenAIEngine
 
-# set max concurrency from environment variable or default
-DEFAULT_MAX_CONCURRENCY = 8
-
+DEFAULT_MAX_CONCURRENCY = 1
 max_concurrency = int(os.getenv("MAX_CONCURRENCY", DEFAULT_MAX_CONCURRENCY))
 
 
@@ -35,6 +33,13 @@ async def handler(job: Any):
     async for batch in job:
         yield batch
 
+# Original code from vllm runpod_wrapper.py
+#async def handler(job):
+#    job_input = JobInput(job["input"])
+#    engine = OpenAIvLLMEngine if job_input.openai_route else vllm_engine
+#    results_generator = engine.generate(job_input)
+#    async for batch in results_generator:
+#        yield batch
 
 runpod.serverless.start(
     {
